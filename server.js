@@ -3,6 +3,7 @@ var path = require("path");
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
+var cors = require('cors')
 
 var MONGO_COLLECTION = "cervejarias";
 var MONGODB_URI = 'mongodb://localhost:27017/cervejarias';
@@ -11,6 +12,7 @@ var PORT = 8081;
 var app = express();
 app.use(express.static(__dirname + "/src"));
 app.use(bodyParser.json());
+app.use(cors());
 
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
@@ -48,8 +50,7 @@ function handleError(res, reason, message, code) {
 
 app.get("/cervejarias/", function(req, res) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
     db.collection(MONGO_COLLECTION).find({}).toArray(function(err, docs) {
         if (err) {
@@ -61,14 +62,10 @@ app.get("/cervejarias/", function(req, res) {
 });
 
 app.post("/cervejarias/", function(req, res) {
-    var newContact = req.body;
-    newContact.createDate = new Date();
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
-    // if (!(req.body.firstName || req.body.lastName)) {
-    //     handleError(res, "Invalid user input", "Must provide a first or last name.", 400);
-    // }
-
-    db.collection(MONGO_COLLECTION).insertOne(newContact, function(err, doc) {
+    db.collection(MONGO_COLLECTION).insertOne(req.body, function(err, doc) {
         if (err) {
             handleError(res, err.message, "Failed to create new object.");
         } else {

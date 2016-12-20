@@ -11,15 +11,17 @@ class CervejariasIndex extends Component {
   renderCervejarias() {
     return this.props.cervejarias.map((cervejaria) => {
       return (
-        <li key={cervejaria._id}>{cervejaria.name}</li>
+         <li key={cervejaria._id}>{cervejaria.name}</li>
       );
     });
   }
 
   render() {
     return (
-      <div>
-        {this.renderCervejarias()}
+      <div className="content">
+        <ol>
+          {this.renderCervejarias()}
+        </ol>
       </div>
     );
   }

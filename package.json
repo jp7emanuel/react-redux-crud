@@ -30,7 +30,11 @@
     "axios": "^0.15.3",
     "babel-preset-stage-1": "^6.1.18",
     "body-parser": "^1.15.2",
+    "bulma": "^0.2.3",
+    "cors": "^2.8.1",
     "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "laravel-elixir": "^6.0.0-15",
     "lodash": "^3.10.1",
     "mongodb": "^2.2.16",
     "re-base": "^2.5.1",
@@ -39,6 +43,7 @@
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
+    "redux-form": "^6.3.2",
     "redux-promise": "^0.5.3"
   }
 }
