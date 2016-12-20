@@ -11,17 +11,36 @@ class CervejariasIndex extends Component {
   renderCervejarias() {
     return this.props.cervejarias.map((cervejaria) => {
       return (
-         <li key={cervejaria._id}>{cervejaria.name}</li>
+        <tr key={cervejaria._id}>
+          <td>{cervejaria.name}</td>
+          <td className="is-icon">
+            <a href={`/cervejarias/${cervejaria._id}`}>
+              <i className="fa fa-pencil-square-o"></i>
+            </a>
+          </td>
+        </tr>
       );
     });
   }
 
   render() {
     return (
-      <div className="content">
-        <ol>
-          {this.renderCervejarias()}
-        </ol>
+      <div>
+        <div className="container column">
+          <h3 className="title is-1">Lista de Cervejarias</h3>
+          <hr/>
+          <table className="table">
+            <thead>
+              <tr>
+                <th><strong>Name</strong></th>
+                <th><strong>Links</strong></th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.renderCervejarias()}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

@@ -5,3 +5,6 @@ npm-debug.log
 # IntelliJ
 *.iml
 /.idea
+
+/styles/fonts
+/styles/css

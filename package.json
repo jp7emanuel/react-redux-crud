@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "git@github.com:StephenGrider/ReduxSimpleStarter.git",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "start": "gulp && node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch",
     "start-server": "node server.js"
@@ -33,6 +33,7 @@
     "bulma": "^0.2.3",
     "cors": "^2.8.1",
     "express": "^4.14.0",
+    "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
     "laravel-elixir": "^6.0.0-15",
     "lodash": "^3.10.1",
