@@ -13,7 +13,7 @@ class CervejariasShow extends Component {
     }
     return (
       <div>
-        Cervejaria: {cervejaria.name}
+        Cervejaria: { cervejaria.name }
       </div>
     );
   }

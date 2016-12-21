@@ -40,11 +40,13 @@
     "mongodb": "^2.2.16",
     "re-base": "^2.5.1",
     "react": "^0.14.3",
+    "react-addons-update": "^15.4.1",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
     "redux-form": "^6.3.2",
-    "redux-promise": "^0.5.3"
+    "redux-promise": "^0.5.3",
+    "redux-thunk": "^2.1.0"
   }
 }

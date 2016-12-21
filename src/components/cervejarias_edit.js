@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { createCervejaria } from '../actions/index';
+import { fetchCervejaria, updateCervejaria } from '../actions/index';
 
-const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
+const renderField = ({ input, label, type, meta: { touched, error, warning }, value }) => (
   <div className="control">
     <label className="label">{label}</label>
     <p >
-      <input {...input} type={type} placeholder={label} className={`input ${touched && error ? 'is-danger' : ''}`}/>
+      <input {...input} type={type} placeholder={label} className={`input ${touched && error ? 'is-danger' : ''}`} />
       {touched && error && <span className="help is-danger">{error}</span>}
     </p>
   </div>
@@ -27,32 +26,31 @@ const validate = (values) => {
   return errors;
 }
 
-class CervejariasCreate extends Component {
+class CervejariasEdit extends Component {
   static contextTypes = {
     router: PropTypes.object
   };
 
+  componentWillMount() {
+    this.props.fetchCervejaria(this.props.params.id);
+  }
+
   onSubmit(props) {
-    this.props.createCervejaria(props)
+    this.props.updateCervejaria(props)
       .then(() => {
         this.context.router.push('/');
       });
   }
 
-  focus() {
-    // Explicitly focus the text input using the raw DOM API
-    this.textInput.focus();
-  }
-
   render() {
-    const { handleSubmit, submitting, pristine, reset } = this.props;
+    const { handleSubmit, submitting, pristine, reset, initialValues } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <div className="container column">
           <h3 className="title is-1">Adicionar Cervejaria</h3>
           <hr/>
 
-          <Field name="name" component="input" component={renderField} type="text" label="Name" autoFocus />
+          <Field name="name" component={renderField} type="text" label="Name"/>
 
           <p className="control">
             <button type="submit" className="button is-primary" disabled={submitting}>Enviar</button>
@@ -65,9 +63,16 @@ class CervejariasCreate extends Component {
   }
 }
 
+
 const form = reduxForm({
-  form: 'CervejariasCreateForm',
+  form: 'CervejariasEditForm',
   validate
 });
 
-export default connect(null, { createCervejaria })(form(CervejariasCreate));
+function mapStateToProps(state) {
+  return {
+    initialValues: state.cervejarias.cervejaria
+  }
+}
+
+export default connect(mapStateToProps, { fetchCervejaria, updateCervejaria })(form(CervejariasEdit));

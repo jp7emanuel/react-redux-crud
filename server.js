@@ -36,17 +36,12 @@ mongodb.MongoClient.connect(MONGODB_URI, function (err, database) {
     });
 });
 
-// CONTACTS API ROUTES BELOW
+// CERVEJARIAS API ROUTES BELOW
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
     console.log("ERROR: " + reason);
     res.status(code || 500).json({"error": message});
 }
-
-/*  "/contacts"
-*    GET: finds all contacts
-*    POST: creates a new contact
-*/
 
 app.get("/cervejarias/", function(req, res) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -76,6 +71,9 @@ app.post("/cervejarias/", function(req, res) {
 });
 
 app.get("/cervejarias/:id", function(req, res) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+
     db.collection(MONGO_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
         if (err) {
             handleError(res, err.message, "Failed to get object.");
@@ -86,6 +84,9 @@ app.get("/cervejarias/:id", function(req, res) {
 });
 
 app.put("/cervejarias/:id", function(req, res) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+
     var updateDoc = req.body;
     delete updateDoc._id;
 
@@ -100,6 +101,9 @@ app.put("/cervejarias/:id", function(req, res) {
 });
 
 app.delete("/cervejarias/:id", function(req, res) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+
     db.collection(MONGO_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
         if (err) {
             handleError(res, err.message, "Failed to delete object.");

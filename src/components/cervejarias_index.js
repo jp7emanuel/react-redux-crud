@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCervejarias } from '../actions/index';
+import { requestCervejarias, deleteCervejaria } from '../actions/index';
 
 class CervejariasIndex extends Component {
 
   componentWillMount() {
-    this.props.fetchCervejarias();
+    this.props.requestCervejarias();
+  }
+
+  onDelete(id) {
+    event.preventDefault();
+    this.props.deleteCervejaria(id);
   }
 
   renderCervejarias() {
     return this.props.cervejarias.map((cervejaria) => {
       return (
         <tr key={cervejaria._id}>
-          <td>{cervejaria.name}</td>
-          <td className="is-icon">
+          <td>
             <a href={`/cervejarias/${cervejaria._id}`}>
+              {cervejaria.name}
+            </a>
+          </td>
+          <td className="is-icon">
+            <a href={`/cervejarias/edit/${cervejaria._id}`}>
               <i className="fa fa-pencil-square-o"></i>
+            </a>
+            <a href="#" onClick={this.onDelete.bind(this, cervejaria._id)}>
+              <i className="fa fa-remove"></i>
             </a>
           </td>
         </tr>
@@ -24,6 +36,18 @@ class CervejariasIndex extends Component {
   }
 
   render() {
+    if (this.props.error) {
+      return <p className="container column">Houve um problema ao retornar a lista de dados!</p>;
+    }
+
+    if (this.props.isLoading) {
+      return <p className="container column">Loading...</p>;
+    }
+
+    // if (!this.props.cervejarias.length) {
+    //   return <p className="container column">Nenhuma cervejaria cadastrada!</p>;
+    // }
+    console.log(this.props);
     return (
       <div>
         <div className="container column">
@@ -47,7 +71,11 @@ class CervejariasIndex extends Component {
 }
 
 function mapStateToProps(state) {
-  return { cervejarias: state.cervejarias.all }
+  return {
+    cervejarias: state.cervejarias.all,
+    error: state.cervejarias.error,
+    isLoading: state.cervejarias.isLoading
+  }
 }
 
-export default connect(mapStateToProps, { fetchCervejarias })(CervejariasIndex);
+export default connect(mapStateToProps, { requestCervejarias, deleteCervejaria })(CervejariasIndex);
