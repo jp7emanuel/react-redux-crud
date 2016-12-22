@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCervejaria } from '../actions/index';
+import { requestCervejaria } from '../actions/index';
 
 class CervejariasShow extends Component {
   componentWillMount() {
-    this.props.fetchCervejaria(this.props.params.id);
+    this.props.requestCervejaria(this.props.params.id);
   }
   render() {
-    const { cervejaria } = this.props;
-    if (!cervejaria) {
-      return <div> Loading... </div>;
+    const { cervejaria, error, isLoading } = this.props;
+
+    if (error) {
+      return <p className="container column">Houve um problema ao retornar a lista de dados!</p>;
     }
+
+    if (isLoading) {
+      return <p className="container column">Loading...</p>;
+    }
+
     return (
       <div>
         Cervejaria: { cervejaria.name }
@@ -20,7 +26,11 @@ class CervejariasShow extends Component {
 }
 
 function mapStateToProps(state) {
-  return { cervejaria: state.cervejarias.cervejaria }
+  return {
+    cervejaria: state.cervejarias.cervejaria,
+    isLoading: state.cervejarias.isLoading,
+    error: state.cervejarias.error
+  }
 }
 
-export default connect(mapStateToProps, { fetchCervejaria })(CervejariasShow);
+export default connect(mapStateToProps, { requestCervejaria })(CervejariasShow);
