@@ -34,7 +34,6 @@ class CervejariasIndex extends Component {
       );
     });
   }
-
   render() {
     if (this.props.error) {
       return <p className="container column">Houve um problema ao retornar a lista de dados!</p>;
@@ -44,10 +43,10 @@ class CervejariasIndex extends Component {
       return <p className="container column">Loading...</p>;
     }
 
-    // if (!this.props.cervejarias.length) {
-    //   return <p className="container column">Nenhuma cervejaria cadastrada!</p>;
-    // }
-    console.log(this.props);
+    if (!this.props.cervejarias.length) {
+      return <p className="container column">Nenhuma cervejaria cadastrada!</p>;
+    }
+
     return (
       <div>
         <div className="container column">

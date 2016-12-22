@@ -1,4 +1,4 @@
-import { FETCH_CERVEJARIAS, FETCH_CERVEJARIA, UPDATE_CERVEJARIA, DELETE_CERVEJARIA, FETCH_HAS_ERRORED } from '../actions/index';
+import { FETCH_CERVEJARIAS, FETCH_CERVEJARIA, UPDATE_CERVEJARIA, DELETE_CERVEJARIA, FETCH_HAS_ERRORED,  } from '../actions/index';
 import update from 'react-addons-update'; // ES6
 import { omit } from 'lodash';
 
@@ -27,8 +27,13 @@ export default function (state = INITIAL_STATE, action) {
         }
       });
     case FETCH_CERVEJARIA:
-    case UPDATE_CERVEJARIA:
-      return { ...state, cervejaria: action.payload.data };
+      return update(state, {
+        $merge: {
+          cervejaria: action.payload.data,
+          isLoading: false,
+          error: false
+        }
+      });
     case DELETE_CERVEJARIA:
       return update(state.all, {
         $set: {

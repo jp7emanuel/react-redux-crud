@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8081';
 
-export const REQUEST_CERVEJARIAS = 'REQUEST_CERVEJARIAS';
 export const FETCH_HAS_ERRORED = 'FETCH_HAS_ERRORED';
 export const FETCH_IS_LOADING = 'FETCH_IS_LOADING';
 export const FETCH_CERVEJARIAS = 'FETCH_CERVEJARIAS';
@@ -18,6 +17,21 @@ export function requestCervejarias() {
     return axios.get(`${API_URL}/cervejarias`)
     .then(function(response) {
       dispatch(fetchCervejarias(response));
+    })
+    .catch(function(response){
+      dispatch(fetchHasErrored());
+      dispatch(pushState(null,'/error'));
+    })
+  };
+}
+
+export function requestCervejaria(id) {
+  return function(dispatch) {
+    dispatch(fetchIsLoading());
+
+    return axios.get(`${API_URL}/cervejarias/${id}`)
+    .then(function(response) {
+      dispatch(fetchCervejaria(response));
     })
     .catch(function(response){
       dispatch(fetchHasErrored());
@@ -53,11 +67,10 @@ export function createCervejaria(props) {
   };
 }
 
-export function fetchCervejaria(id) {
-  const request = axios.get(`${API_URL}/cervejarias/${id}`);
+export function fetchCervejaria(response) {
   return {
     type: FETCH_CERVEJARIA,
-    payload: request
+    payload: response
   };
 }
 
