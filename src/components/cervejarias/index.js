@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { requestCervejarias, deleteCervejaria } from '../actions/index';
+import { requestCervejarias, deleteCervejaria } from '../../actions/index';
+import ErrorMessage from '../errors/index';
+import Loading from '../errors/index';
 
 class CervejariasIndex extends Component {
 
@@ -14,15 +16,16 @@ class CervejariasIndex extends Component {
   }
 
   renderCervejarias() {
-    return this.props.cervejarias.map((cervejaria) => {
+    return this.props.cervejarias.map((cervejaria, key) => {
       return (
         <tr key={cervejaria._id}>
+          <td width="5%">{key+1}</td>
           <td>
             <a href={`/cervejarias/${cervejaria._id}`}>
               {cervejaria.name}
             </a>
           </td>
-          <td className="is-icon">
+          <td className="is-icon" width="5%">
             <a href={`/cervejarias/edit/${cervejaria._id}`}>
               <i className="fa fa-pencil-square-o"></i>
             </a>
@@ -36,15 +39,15 @@ class CervejariasIndex extends Component {
   }
   render() {
     if (this.props.error) {
-      return <p className="container column">Houve um problema ao retornar a lista de dados!</p>;
+      return <ErrorMessage />
     }
 
     if (this.props.isLoading) {
-      return <p className="container column">Loading...</p>;
+      return <Loading />;
     }
 
     if (!this.props.cervejarias.length) {
-      return <p className="container column">Nenhuma cervejaria cadastrada!</p>;
+      return <ErrorMessage message="Nenhuma cervejaria cadastrada!" />;
     }
 
     return (
@@ -55,6 +58,7 @@ class CervejariasIndex extends Component {
           <table className="table">
             <thead>
               <tr>
+                <th><strong>#</strong></th>
                 <th><strong>Name</strong></th>
                 <th><strong>Links</strong></th>
               </tr>

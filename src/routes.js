@@ -2,10 +2,10 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import App from './components/app';
-import CervejariasIndex from './components/cervejarias_index';
-import CervejariasCreate from './components/cervejarias_create';
-import CervejariasShow from './components/cervejarias_show';
-import CervejariasEdit from './components/cervejarias_edit';
+import CervejariasIndex from './components/cervejarias/index';
+import CervejariasCreate from './components/cervejarias/create';
+import CervejariasShow from './components/cervejarias/show';
+import CervejariasEdit from './components/cervejarias/edit';
 
 export default (
   <Route path="/" component={App}>

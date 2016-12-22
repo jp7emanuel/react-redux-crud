@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { requestCervejaria } from '../actions/index';
+import { requestCervejaria } from '../../actions/index';
+import ErrorMessage from '../errors/index';
+import Loading from '../errors/index';
 
 class CervejariasShow extends Component {
   componentWillMount() {
@@ -10,15 +12,15 @@ class CervejariasShow extends Component {
     const { cervejaria, error, isLoading } = this.props;
 
     if (error) {
-      return <p className="container column">Houve um problema ao retornar a lista de dados!</p>;
+      return <ErrorMessage />;
     }
 
     if (isLoading) {
-      return <p className="container column">Loading...</p>;
+      return <Loading />;
     }
 
     return (
-      <div>
+      <div className="container column">
         Cervejaria: { cervejaria.name }
       </div>
     );

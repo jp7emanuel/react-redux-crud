@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import CervejariasIndex from './cervejarias_index';
-import CervejariasCreate from './cervejarias_create';
+import CervejariasIndex from './cervejarias/index';
+import CervejariasCreate from './cervejarias/create';
 import { Link } from 'react-router';
 
 export default class App extends Component {
