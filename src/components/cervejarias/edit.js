@@ -5,21 +5,17 @@ import { requestCervejaria, updateCervejaria } from '../../actions/index';
 import CervejariasForm, { validate } from './form';
 import Loading from '../loadings/index';
 import ErrorMessage from '../errors/index';
+import {withRouter} from 'react-router';
 
 class CervejariasEdit extends Component {
-  static contextTypes = {
-    router: PropTypes.object
-  };
 
   componentWillMount() {
     this.props.requestCervejaria(this.props.params.id);
   }
 
   onSubmit(props) {
-    this.props.updateCervejaria(props)
-      .then(() => {
-        this.context.router.push('/');
-      });
+    this.props.updateCervejaria(props);
+    this.props.router.push('/');
   }
 
   render() {
@@ -56,4 +52,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { requestCervejaria, updateCervejaria })(form(CervejariasEdit));
+export default connect(mapStateToProps, { requestCervejaria, updateCervejaria })(form(withRouter(CervejariasEdit)));

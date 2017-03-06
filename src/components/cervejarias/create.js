@@ -4,17 +4,12 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { createCervejaria } from '../../actions/index';
 import CervejariasForm, { validate } from './form';
+import {withRouter} from 'react-router';
 
 class CervejariasCreate extends Component {
-  static contextTypes = {
-    router: PropTypes.object
-  };
-
   onSubmit(props) {
-    this.props.createCervejaria(props)
-      .then(() => {
-        this.context.router.push('/');
-      });
+    this.props.createCervejaria(props);
+    this.props.router.push('/');
   }
 
   render() {
@@ -32,4 +27,4 @@ const form = reduxForm({
   validate
 });
 
-export default connect(null, { createCervejaria })(form(CervejariasCreate));
+export default connect(null, { createCervejaria })(form(withRouter(CervejariasCreate)));

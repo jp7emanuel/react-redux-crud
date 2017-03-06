@@ -1,13 +1,14 @@
-var express = require("express");
-var path = require("path");
-var bodyParser = require("body-parser");
-var mongodb = require("mongodb");
-var ObjectID = mongodb.ObjectID;
-var cors = require('cors')
+import express from "express";
+import path from "path";
+import bodyParser from "body-parser";
+import mongodb from "mongodb";
+import cors from 'cors';
+import handleRender from './ssr';
 
 var MONGO_COLLECTION = "cervejarias";
 var MONGODB_URI = 'mongodb://localhost:27017/cervejarias';
 var PORT = 8081;
+var ObjectID = mongodb.ObjectID;
 
 var app = express();
 app.use(express.static(__dirname + "/src"));
@@ -17,32 +18,7 @@ app.use(cors());
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 
-// Connect to the database before starting the application server.
-mongodb.MongoClient.connect(MONGODB_URI, function (err, database) {
-    console.log(MONGODB_URI);
-    if (err) {
-        console.log(err);
-        process.exit(1);
-    }
-
-    // Save database object from the callback for reuse.
-    db = database;
-    console.log("Database connection ready");
-
-    // Initialize the app.
-    var server = app.listen(PORT, function () {
-        var port = server.address().port;
-        console.log("App now running on port", port);
-    });
-});
-
 // CERVEJARIAS API ROUTES BELOW
-// Generic error handler used by all endpoints.
-function handleError(res, reason, message, code) {
-    console.log("ERROR: " + reason);
-    res.status(code || 500).json({"error": message});
-}
-
 app.get("/cervejarias/", function(req, res) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -112,3 +88,32 @@ app.delete("/cervejarias/:id", function(req, res) {
         }
     });
 });
+
+app.use('*', (req, res) => {
+  handleRender(req, res);
+});
+
+// Connect to the database before starting the application server.
+mongodb.MongoClient.connect(MONGODB_URI, function (err, database) {
+    console.log(MONGODB_URI);
+    if (err) {
+        console.log(err);
+        process.exit(1);
+    }
+
+    // Save database object from the callback for reuse.
+    db = database;
+    console.log("Database connection ready");
+
+    // Initialize the app.
+    var server = app.listen(PORT, function () {
+        var port = server.address().port;
+        console.log("App now running on port", port);
+    });
+});
+
+// Generic error handler used by all endpoints.
+function handleError(res, reason, message, code) {
+    console.log("ERROR: " + reason);
+    res.status(code || 500).json({"error": message});
+}
