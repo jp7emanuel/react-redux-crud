@@ -18,7 +18,7 @@ export default function handleRender(req, res) {
       if (req.url === '/') { // index route
         return axios.get('http://localhost:8081/api/cervejarias')
           .then(response => {
-            const preloadedState = {
+            const initialState = {
               cervejarias: {
                 all: response.data,
                 cervejaria: null,
@@ -27,7 +27,7 @@ export default function handleRender(req, res) {
               }
             };
 
-            return getRenderedPage(res, renderProps, preloadedState);
+            return getRenderedPage(res, renderProps, initialState);
           });
       }
 
@@ -37,7 +37,7 @@ export default function handleRender(req, res) {
       if (id !== 'create') {
         return axios.get('http://localhost:8081/api/cervejarias/' + id)
           .then(response => {
-            const preloadedState = {
+            const initialState = {
               cervejarias: {
                 all: [],
                 cervejaria: response.data,
@@ -46,13 +46,11 @@ export default function handleRender(req, res) {
               }
             };
 
-            return getRenderedPage(res, renderProps, preloadedState);
+            return getRenderedPage(res, renderProps, initialState);
           });
       }
 
-      const store = configureStore();
       return getRenderedPage(res, renderProps);
-
 
     } else {
       res.status(404).send('Not found')
@@ -60,12 +58,13 @@ export default function handleRender(req, res) {
   });
 }
 
-function getRenderedPage(res, renderProps, preloadedState = {}) {
-  const store = configureStore(preloadedState);
+function getRenderedPage(res, renderProps, state = {}) {
+  const store = configureStore(state);
   const html = getHtml(store, renderProps);
-  const finalState = store.getState();
+  const preloadedState = store.getState();
+  const pageRendered = renderFullPage(html, preloadedState);
 
-  return res.status(200).send(renderFullPage(html, finalState));
+  return res.status(200).send(pageRendered);
 }
 
 function getHtml(store, renderProps) {
