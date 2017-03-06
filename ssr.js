@@ -1,75 +1,94 @@
 import React from 'react';
-import App from './src/components/app';
 import { Provider } from 'react-redux';
 import reducers from './src/reducers';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-import Routes from './src/routes';
+import routes from './src/routes';
 import ReactDOMServer from 'react-dom/server'
 import axios from 'axios';
 import { match, RouterContext } from 'react-router';
+import configureStore from './src/services/config-store';
 
 export default function handleRender(req, res) {
-  match({ Routes, location: req.url }, (error, redirectLocation, renderProps) => {
+  match({ routes: routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
       res.status(500).send(error.message)
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      axios.get('http://localhost:8080/api/stores')
-        .then(response => {
-          const INITIAL_STATE = {
-            all: [],
-            cervejaria: null,
-            isLoading: true,
-            error: false
-          };
 
-          const store = createStore(reducers, INITIAL_STATE, applyMiddleware(thunk));
+      if (req.url === '/') { // index route
+        return axios.get('http://localhost:8081/api/cervejarias')
+          .then(response => {
+            const preloadedState = {
+              cervejarias: {
+                all: response.data,
+                cervejaria: null,
+                isLoading: false,
+                error: false
+              }
+            };
 
-          const context = {};
-          const html = ReactDOMServer.renderToString(
-            <RouterContext {...renderProps}>
-              <Provider store={store}>
-                <App />
-              </Provider>
-            </RouterContext>
-          );
+            return getRenderedPage(res, renderProps, preloadedState);
+          });
+      }
 
-          // Grab the initial state from our Redux store
-          const finalState = store.getState();
+      const splitUrl = req.url.split('/');
+      const id = splitUrl[(splitUrl.length-1)];
 
-          res.status(200).send(renderFullPage(html, finalState));
-        })
+      if (id !== 'create') {
+        return axios.get('http://localhost:8081/api/cervejarias/' + id)
+          .then(response => {
+            const preloadedState = {
+              cervejarias: {
+                all: [],
+                cervejaria: response.data,
+                isLoading: false,
+                error: false
+              }
+            };
+
+            return getRenderedPage(res, renderProps, preloadedState);
+          });
+      }
+
+      const store = configureStore();
+      return getRenderedPage(res, renderProps);
+
 
     } else {
       res.status(404).send('Not found')
     }
-  })
+  });
+}
+
+function getRenderedPage(res, renderProps, preloadedState = {}) {
+  const store = configureStore(preloadedState);
+  const html = getHtml(store, renderProps);
+  const finalState = store.getState();
+
+  return res.status(200).send(renderFullPage(html, finalState));
+}
+
+function getHtml(store, renderProps) {
+  return ReactDOMServer.renderToString(
+    <Provider store={store}>
+      <RouterContext {...renderProps} />
+    </Provider>
+  );
 }
 
 function renderFullPage(html, preloadedState) {
   return `
-    <!doctype html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="/favicon.ico">
-        <title>React App</title>
-        <link rel="stylesheet" type="text/css" href="/css/app.css">
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyADN_LuQtGtfuQc08O5dvCFgNz_t3LpLKg&language=pt-BR"></script>
-      </head>
-      <body>
-        <div id="root">${html}</div>
-        <script>
-          // WARNING: See the following for security issues around embedding JSON in HTML:
-          // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
-          window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
-        </script>
-        <script src="/static/bundle.js"></script>
-        <script type="text/javascript" src="/static/js/main.b7ef3b56.js"></script>
-      </body>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <link rel="stylesheet" href="http://localhost:8080/styles/css/app.css">
+    </head>
+    <body>
+        <div id="app"></div>
+        <script>window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}</script>
+        <script src="http://localhost:8080/bundle.js"></script>
+    </body>
     </html>
+
     `;
 }

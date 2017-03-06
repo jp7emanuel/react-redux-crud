@@ -19,7 +19,7 @@ app.use(cors());
 var db;
 
 // CERVEJARIAS API ROUTES BELOW
-app.get("/cervejarias/", function(req, res) {
+app.get("/api/cervejarias/", function(req, res) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
@@ -32,7 +32,7 @@ app.get("/cervejarias/", function(req, res) {
     });
 });
 
-app.post("/cervejarias/", function(req, res) {
+app.post("/api/cervejarias/", function(req, res) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
@@ -46,7 +46,7 @@ app.post("/cervejarias/", function(req, res) {
 
 });
 
-app.get("/cervejarias/:id", function(req, res) {
+app.get("/api/cervejarias/:id", function(req, res) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
@@ -59,7 +59,7 @@ app.get("/cervejarias/:id", function(req, res) {
     });
 });
 
-app.put("/cervejarias/:id", function(req, res) {
+app.put("/api/cervejarias/:id", function(req, res) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
@@ -76,20 +76,20 @@ app.put("/cervejarias/:id", function(req, res) {
 
 });
 
-app.delete("/cervejarias/:id", function(req, res) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+app.delete("/api/cervejarias/:id", function(req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
-    db.collection(MONGO_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
-        if (err) {
-            handleError(res, err.message, "Failed to delete object.");
-        } else {
-            res.status(204).end();
-        }
-    });
+  db.collection(MONGO_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
+    if (err) {
+      handleError(res, err.message, "Failed to delete object.");
+    } else {
+      res.status(204).end();
+    }
+  });
 });
 
-app.use('*', (req, res) => {
+app.use('/', (req, res) => {
   handleRender(req, res);
 });
 
@@ -110,6 +110,8 @@ mongodb.MongoClient.connect(MONGODB_URI, function (err, database) {
         var port = server.address().port;
         console.log("App now running on port", port);
     });
+
+
 });
 
 // Generic error handler used by all endpoints.
@@ -117,3 +119,5 @@ function handleError(res, reason, message, code) {
     console.log("ERROR: " + reason);
     res.status(code || 500).json({"error": message});
 }
+
+

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8081';
+const API_URL = 'http://localhost:8081/api';
 
 export const FETCH_HAS_ERRORED = 'FETCH_HAS_ERRORED';
 export const FETCH_IS_LOADING = 'FETCH_IS_LOADING';
