@@ -1,25 +1,22 @@
-# ReduxSimpleStarter
+###Introductiond###
 
-Interested in learning [Redux](https://www.udemy.com/react-redux/)?
+Simple all-in-one Express+React+Redux+Router CRUD application.
 
-###Getting Started###
+###Feats###
 
-There are two methods for getting started with this repo.
+This app has server side rendering
 
-####Familiar with Git?#####
-Checkout this repo, install dependencies, then start the gulp process with the following:
+###Running###
 
+- Setup a mongodb called "cervejarias"
+- Execute server in one terminal tab: (server is on port 8081)
 ```
-	> git clone git@github.com:StephenGrider/ReduxSimpleStarter.git
-	> cd ReduxSimpleStarter
-	> npm install
-	> npm start
+npm run server
+```
+- Execute app in another tab: (app is on port 8080)
+```
+npm run start
 ```
 
-####Not Familiar with Git?#####
-Click [here](https://github.com/StephenGrider/ReactStarter/releases) then download the .zip file.  Extract the contents of the zip file, then open your terminal, change to the project directory, and:
+* You can check the server side rendering by disabling Javascript in your browser
 
-```
-	> npm install
-	> npm start
-```
