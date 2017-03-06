@@ -1,10 +1,15 @@
+var path = require('path');
+
+var publicDir = path.join(__dirname, 'public');
+var srcDir = path.join(__dirname, 'src');
+
 module.exports = {
   entry: [
-    './src/index.js',
+    srcDir + '/index.js',
   ],
   output: {
-    path: __dirname,
-    publicPath: '/',
+    path: publicDir,
+    publicPath: publicDir,
     filename: 'bundle.js'
   },
   module: {
@@ -20,8 +25,6 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   devServer: {
-    historyApiFallback: true,
-    contentBase: './',
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",

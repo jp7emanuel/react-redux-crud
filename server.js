@@ -7,11 +7,10 @@ import handleRender from './ssr';
 
 var MONGO_COLLECTION = "cervejarias";
 var MONGODB_URI = 'mongodb://localhost:27017/cervejarias';
-var PORT = 8081;
+var PORT = 8080;
 var ObjectID = mongodb.ObjectID;
 
 var app = express();
-app.use(express.static(__dirname + "/src"));
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -89,7 +88,9 @@ app.delete("/api/cervejarias/:id", function(req, res) {
   });
 });
 
-app.use('/', (req, res) => {
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res) => {
   handleRender(req, res);
 });
 

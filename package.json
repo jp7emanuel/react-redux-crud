@@ -8,7 +8,8 @@
     "start": "gulp && node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch",
-    "server": "./node_modules/.bin/nodemon ./server.js --exec ./node_modules/.bin/babel-node --presets es2015"
+    "server": "./node_modules/.bin/nodemon ./server.js --exec ./node_modules/.bin/babel-node --presets es2015",
+    "build" : "webpack -p"
   },
   "author": "",
   "license": "ISC",

@@ -16,7 +16,7 @@ export default function handleRender(req, res) {
     } else if (renderProps) {
 
       if (req.url === '/') { // index route
-        return axios.get('http://localhost:8081/api/cervejarias')
+        return axios.get('http://localhost:8080/api/cervejarias')
           .then(response => {
             const initialState = {
               cervejarias: {
@@ -35,7 +35,7 @@ export default function handleRender(req, res) {
       const id = splitUrl[(splitUrl.length-1)];
 
       if (id !== 'create') {
-        return axios.get('http://localhost:8081/api/cervejarias/' + id)
+        return axios.get('http://localhost:8080/api/cervejarias/' + id)
           .then(response => {
             const initialState = {
               cervejarias: {
@@ -80,12 +80,12 @@ function renderFullPage(html, preloadedState) {
     <!DOCTYPE html>
     <html>
     <head>
-        <link rel="stylesheet" href="http://localhost:8080/styles/css/app.css">
+        <link rel="stylesheet" href="/css/app.css">
     </head>
     <body>
         <div id="app">${html}</div>
         <script>window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}</script>
-        <script src="http://localhost:8080/bundle.js"></script>
+        <script src="/bundle.js"></script>
     </body>
     </html>
 
