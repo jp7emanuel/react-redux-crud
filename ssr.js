@@ -83,7 +83,7 @@ function renderFullPage(html, preloadedState) {
         <link rel="stylesheet" href="http://localhost:8080/styles/css/app.css">
     </head>
     <body>
-        <div id="app"></div>
+        <div id="app">${html}</div>
         <script>window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}</script>
         <script src="http://localhost:8080/bundle.js"></script>
     </body>
