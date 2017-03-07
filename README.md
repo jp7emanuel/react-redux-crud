@@ -12,19 +12,21 @@ Application:
 * React
 * Redux
 * Router
-* Bulma CSS
+* Gulp
+* Bulma CSS 
+* Font-Awesome
 
 ### Running
 
-Setup a mongodb called "cervejarias"
-Execute server in one terminal tab: (server is on port 8081)
-```
-npm run server
-```
-Execute app in another tab: (app is on port 8080)
+Have a mongodb setup ready
+
+Start the application: (app uses port 8080) 
 ```
 npm run start
 ```
 
-ps: You can check the server side rendering by disabling Javascript in your browser
+### Extra
+
+* You can see the server side rendering by disabling Javascript in your browser
+* This app is not production-ready since it uses same port to app and server and they cannot run concurrently without magic
 

@@ -39,7 +39,12 @@ class CervejariasForm extends Component {
     const { handleSubmit, submitting, pristine, reset, initialValues, error, isLoading } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(props => this.onSubmit(props))}>
+      <form onSubmit={handleSubmit(props => this.onSubmit(props))} method="post">
+        {
+          this.props.method !== "post" ? (
+            <input type="hidden" name="_method" value="put" />
+          ) : null
+        }
         <div className="container column">
           <h3 className="title is-1">{this.props.actionName} Cervejaria</h3>
           <hr/>

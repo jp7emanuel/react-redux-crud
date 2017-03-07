@@ -5,11 +5,8 @@
   "main": "index.js",
   "repository": "git@github.com:StephenGrider/ReduxSimpleStarter.git",
   "scripts": {
-    "start": "gulp && node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
-    "test:watch": "npm run test -- --watch",
-    "server": "./node_modules/.bin/nodemon ./server.js --exec ./node_modules/.bin/babel-node --presets es2015",
-    "build" : "webpack -p"
+    "start": "webpack && gulp && node server.bundle.js",
+    "build": "gulp --production && webpack -p && node server.bundle.js",
   },
   "author": "",
   "license": "ISC",
@@ -23,8 +20,6 @@
     "babel-preset-stage-1": "^6.1.18",
     "body-parser": "^1.15.2",
     "bulma": "^0.2.3",
-    "chai": "^3.5.0",
-    "chai-jquery": "^2.0.0",
     "cors": "^2.8.1",
     "express": "^4.14.0",
     "font-awesome": "^4.7.0",
@@ -33,7 +28,6 @@
     "jsdom": "^8.1.0",
     "laravel-elixir": "^6.0.0-15",
     "lodash": "^3.10.1",
-    "mocha": "^2.4.5",
     "mongodb": "^2.2.16",
     "nodemon": "^1.11.0",
     "re-base": "^2.5.1",
@@ -48,6 +42,7 @@
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.1.0",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
+    "webpack-dev-server": "^1.14.0",
+    "webpack-node-externals": "^1.5.4"
   }
 }

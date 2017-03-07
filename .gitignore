@@ -1,10 +1,11 @@
 /node_modules
-bundle.js
 npm-debug.log
 
 # IntelliJ
 *.iml
 /.idea
 
-/styles/fonts
-/styles/css
+#generated
+/dist/css/
+/dist/fonts/
+/dist/bundle.js

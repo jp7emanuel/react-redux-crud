@@ -34,6 +34,7 @@ class CervejariasEdit extends Component {
         formSubmit={this.onSubmit.bind(this)}
         initialValues={cervejaria}
         actionName="Adicionar"
+        method="put"
       />
     );
   }

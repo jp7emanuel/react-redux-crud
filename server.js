@@ -4,6 +4,9 @@ import bodyParser from "body-parser";
 import mongodb from "mongodb";
 import cors from 'cors';
 import handleRender from './ssr';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpack from 'webpack';
+import config from './webpack.config';
 
 var MONGO_COLLECTION = "cervejarias";
 var MONGODB_URI = 'mongodb://localhost:27017/cervejarias';
@@ -88,15 +91,17 @@ app.delete("/api/cervejarias/:id", function(req, res) {
   });
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('./dist'));
+app.use('/css', express.static('./dist/css'));
+app.use('/fonts', express.static('./dist/fonts'));
 
 app.use((req, res) => {
   handleRender(req, res);
 });
 
+
 // Connect to the database before starting the application server.
 mongodb.MongoClient.connect(MONGODB_URI, function (err, database) {
-    console.log(MONGODB_URI);
     if (err) {
         console.log(err);
         process.exit(1);
@@ -111,8 +116,6 @@ mongodb.MongoClient.connect(MONGODB_URI, function (err, database) {
         var port = server.address().port;
         console.log("App now running on port", port);
     });
-
-
 });
 
 // Generic error handler used by all endpoints.

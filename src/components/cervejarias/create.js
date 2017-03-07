@@ -17,6 +17,7 @@ class CervejariasCreate extends Component {
       <CervejariasForm
         formSubmit={this.onSubmit.bind(this)}
         actionName="Adicionar"
+        method="post"
       />
     );
   }

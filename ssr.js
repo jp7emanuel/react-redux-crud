@@ -85,9 +85,20 @@ function renderFullPage(html, preloadedState) {
     <body>
         <div id="app">${html}</div>
         <script>window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}</script>
-        <script src="/bundle.js"></script>
+        <noscript>
+          <div class="container column">
+            <div class="message is-danger">
+              <div class="message-header">
+                <p><strong>Eita</strong>!</p>
+              </div>
+              <div class="message-body">
+                <p>Este site não consegue executar todas as suas funções se o JavaScript estiver desabilitado no seu navegador.</p>
+              </div>
+            </div>
+          </div>
+        </noscript>
+        <script src="/app.bundle.js"></script>
     </body>
     </html>
-
     `;
 }
