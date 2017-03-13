@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { saveStoreType } from '../../actions/store-type';
 import WinterFell from 'winterfell';
-import Loading from '../loadings';
 import schema from './form';
+import {browserHistory} from 'react-router';
 
 class StoreTypeCreate extends Component {
   onSubmit = (questionAnswers, action) => {
-    console.log(questionAnswers, action);
     this.props.saveStoreType(questionAnswers);
+    browserHistory.push('/');
   }
 
   onRender = () => {

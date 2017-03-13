@@ -23,21 +23,9 @@ function getInputs() {
     },
     {
       data: generateData("address", "Location Address", '', '', "text"),
-      rules: [
-        {
-          type: "isAlphanumeric",
-          params: null
-        }
-      ]
     },
     {
       data: generateData("place", "Place Reference", '', '', "text"),
-      rules: [
-        {
-          type: "isAlphanumeric",
-          params: null
-        }
-      ]
     },
     {
       data: generateData("telephone", "Telephone", '', '', "text"),

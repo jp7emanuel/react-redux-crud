@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { saveStore } from '../../actions/store';
 import WinterFell from 'winterfell';
 import getStoreSchema from './form';
-import Loading from '../loadings';
 import {requestStoreTypes} from '../../actions/store-type';
+import {browserHistory} from 'react-router';
 
 class StoreCreate extends Component {
   componentWillMount() {
@@ -12,13 +12,13 @@ class StoreCreate extends Component {
   }
 
   onSubmit = (questionAnswers, action) => {
-    console.log(questionAnswers, action);
-    // this.props.saveStore(questionAnswers);
+    this.props.saveStore(questionAnswers);
+    browserHistory.push('/');
   }
 
   onRender = () => {
     return true;
-  };
+  }
 
   onUpdate = () => {
     return true;
@@ -26,8 +26,9 @@ class StoreCreate extends Component {
 
   render() {
     if (this.props.storeTypes.length < 1) {
-      return <Loading />;
+      return <div className="container">Adicione ao menos um Store Type</div>;
     }
+
     const schema = getStoreSchema(this.props.storeTypes);
 
     return (

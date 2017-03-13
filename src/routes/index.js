@@ -11,12 +11,11 @@ export default (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={StoreIndex} />
-      <Route path="/create" component={StoreCreate} />
+      <Route path="create" component={StoreCreate} />
     </Route>
-    <Route path="/store-types" component={App}>
-      <Route path="/store-types/create" component={StoreTypeCreate} />
+    <Route path="store-types" component={App}>
+      <Route path="create" component={StoreTypeCreate} />
     </Route>
-
   </Router>
 );
 
