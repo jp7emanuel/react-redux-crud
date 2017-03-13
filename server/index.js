@@ -12,6 +12,8 @@ app.server = http.createServer(app);
 app.use(bodyParser.json());
 app.use([storesRoute, storeTypesRoute]);
 
+app.use(express.static(path.resolve(__dirname, '..', 'build')))
+
 app.use('*', (req, res) => {
   return ssr(req, res);
 });
