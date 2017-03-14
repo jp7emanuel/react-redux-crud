@@ -4,7 +4,7 @@ import { saveStore } from '../../actions/store';
 import WinterFell from 'winterfell';
 import getStoreSchema from './form';
 import {requestStoreTypes} from '../../actions/store-type';
-import {browserHistory} from 'react-router';
+import history from 'history';
 
 class StoreCreate extends Component {
   componentWillMount() {
@@ -13,7 +13,7 @@ class StoreCreate extends Component {
 
   onSubmit = (questionAnswers, action) => {
     this.props.saveStore(questionAnswers);
-    browserHistory.push('/');
+    history.push('/');
   }
 
   onRender = () => {

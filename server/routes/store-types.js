@@ -1,13 +1,7 @@
-import express from 'express';
 import StoreType from '../models/store-type';
-import _ from 'lodash';
-import cors from 'cors';
 import errorHandler from '../services/error-handler';
 
-let router = express.Router();
-router.all('*', cors());
-
-router.get('/api/store-types', (req, res, next) => {
+export const storeTypesIndex = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
@@ -18,9 +12,9 @@ router.get('/api/store-types', (req, res, next) => {
 
     return res.status(200).json(storeTypes);
   });
-});
+}
 
-router.post('/api/store-types', (req, res, next) => {
+export const storeTypesCreate = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   let storeType = new StoreType(req.body.data);
@@ -32,6 +26,4 @@ router.post('/api/store-types', (req, res, next) => {
 
     return res.status(200).send(storeType);
   });
-});
-
-export default router;
+}

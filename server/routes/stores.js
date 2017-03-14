@@ -1,13 +1,8 @@
-import express from 'express';
 import Store from '../models/store';
 import StoreType from '../models/store-type';
-import cors from 'cors';
 import errorHandler from '../services/error-handler';
 
-let router = express.Router();
-router.all('*', cors());
-
-router.get('/api/stores', (req, res, next) => {
+export const storesIndex = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
@@ -18,9 +13,9 @@ router.get('/api/stores', (req, res, next) => {
 
     return res.status(200).json(stores);
   });
-});
+}
 
-router.get('/api/stores/:id', (req, res, next) => {
+export const storesShow = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
@@ -31,9 +26,9 @@ router.get('/api/stores/:id', (req, res, next) => {
 
     return res.status(201).send(store);
   });
-});
+}
 
-router.post('/api/stores', (req, res, next) => {
+export const storesCreate = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
@@ -45,9 +40,9 @@ router.post('/api/stores', (req, res, next) => {
 
     return res.status(202).send(store);
   });
-});
+}
 
-router.put('/api/stores/:id', (req, res, next) => {
+export const storesUpdate = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
@@ -65,9 +60,9 @@ router.put('/api/stores/:id', (req, res, next) => {
 
     return res.status(203).json(store);
   });
-});
+}
 
-router.delete('/api/stores/:id', (req, res, next) => {
+export const storesDelete = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
@@ -83,6 +78,4 @@ router.delete('/api/stores/:id', (req, res, next) => {
 
     return res.status(204).json(store);
   });
-});
-
-export default router;
+}

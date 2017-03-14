@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import routes from './routes';
 import configureStore from './utils/config-store';
+import App from './components/app';
+import { Router } from 'react-router';
+import createBrowserHistory from 'history/createBrowserHistory';
 
 ReactDOM.render(
   <Provider store={configureStore()}>
-      {routes}
+    <Router history={createBrowserHistory()}>
+      <App />
+    </Router>
   </Provider>
   , document.querySelector('#root'));

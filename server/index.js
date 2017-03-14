@@ -2,21 +2,44 @@ import http from 'http';
 import express from 'express';
 import path from 'path';
 import db from './services/db';
-import storesRoute from './routes/stores';
-import storeTypesRoute from './routes/store-types';
+import {
+  storesIndex,
+  storesShow,
+  storesCreate,
+  storesUpdate,
+  storesDelete
+} from './routes/stores';
+import {
+  storeTypesIndex,
+  storeTypesCreate
+} from './routes/store-types';
 import bodyParser from 'body-parser';
 import ssr from './ssr';
+import cors from 'cors';
 
 let app = express();
+let router = express.Router();
+router.all('*', cors());
+
 app.server = http.createServer(app);
 app.use(bodyParser.json());
-app.use([storesRoute, storeTypesRoute]);
+app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
-app.use(express.static(path.resolve(__dirname, '..', 'build')))
+router.route('/api/stores').get(storesIndex);
+router.route('/api/stores').post(storesCreate);
+router.route('/api/stores/:id').get(storesShow);
+router.route('/api/stores/:id').put(storesUpdate);
+router.route('/api/stores/:id').delete(storesDelete);
 
-app.use('*', (req, res) => {
-  return ssr(req, res);
+router.route('/api/store-types').get(storeTypesIndex);
+router.route('/api/store-types').post(storeTypesCreate);
+
+
+router.route('*').get((req, res) => {
+  ssr(req, res);
 });
+
+app.use(router);
 
 app.server.listen(process.env.PORT || 8080, function () {
   console.log('Listening on port %d!', app.server.address().port);

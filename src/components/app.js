@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
+import Routes from '../routes';
+import routesConfig from '../routes/config';
 
 class App extends Component {
   render() {
@@ -29,7 +31,7 @@ class App extends Component {
           </div>
         </nav>
 
-        {this.props.children}
+        {Routes(routesConfig)}
       </div>
     );
   }
